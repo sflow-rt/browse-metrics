@@ -130,9 +130,10 @@ $(function() {
     window.sessionStorage.setItem('datasource',selectedDatasource);
     resetChart();
   });
-  selectedAggregation = $('#aggregation').children('option:selected').val();
+  $('#aggregation option[value="'+selectedAggregation+'"]').prop('selected',true);
   $('#aggregation').change(function(evt) {
     selectedAggregation = $('#aggregation').children('option:selected').val();
+    window.sessionStorage.setItem('aggregation',selectedAggregation);
     resetChart();
   });
   $.get('../../../agents/json', function(agents) {
