@@ -1,8 +1,8 @@
 $(function() {
-  var selectedAgent = window.sessionStorage.getItem('agent') || 'ALL';
-  var selectedMetric = window.sessionStorage.getItem('metric');
-  var selectedDatasource = window.sessionStorage.getItem('datasource') || 'ALL';
-  var selectedAggregation = window.sessionStorage.getItem('aggregation') || 'max';
+  var selectedAgent = window.sessionStorage.getItem('mb_agent') || 'ALL';
+  var selectedMetric = window.sessionStorage.getItem('mb_metric');
+  var selectedDatasource = window.sessionStorage.getItem('mb_datasource') || 'ALL';
+  var selectedAggregation = window.sessionStorage.getItem('mb_aggregation') || 'max';
 
   var names = {};
   var maxPoints = 5 * 60;
@@ -68,7 +68,7 @@ $(function() {
         dsSelect.empty();
         dsSelect.append('<option value="ALL" selected>ALL</option>');
         selectedDatasource = 'ALL';
-        window.sessionStorage.setItem('datasource',selectedDatasource);
+        window.sessionStorage.setItem('mb_datasource',selectedDatasource);
         resetChart();
       });
     } else {
@@ -105,12 +105,12 @@ $(function() {
   }
   $('#agent').change(function(evt) {
     selectedAgent = $('#agent').children('option:selected').val();
-    window.sessionStorage.setItem('agent',selectedAgent);
+    window.sessionStorage.setItem('mb_agent',selectedAgent);
     updateMetrics();
   });
   $('#metric').change(function(evt) {
     selectedMetric = $('#metric').children('option:selected').val();
-    window.sessionStorage.setItem('metric',selectedMetric);
+    window.sessionStorage.setItem('mb_metric',selectedMetric);
     var dsSelect = $('#datasource');
     var i, dsList = names[selectedMetric];
     dsSelect.empty();
@@ -127,13 +127,13 @@ $(function() {
   });
   $('#datasource').change(function(evt) {
     selectedDatasource = $('#datasource').children('option:selected').val();
-    window.sessionStorage.setItem('datasource',selectedDatasource);
+    window.sessionStorage.setItem('mb_datasource',selectedDatasource);
     resetChart();
   });
   $('#aggregation option[value="'+selectedAggregation+'"]').prop('selected',true);
   $('#aggregation').change(function(evt) {
     selectedAggregation = $('#aggregation').children('option:selected').val();
-    window.sessionStorage.setItem('aggregation',selectedAggregation);
+    window.sessionStorage.setItem('mb_aggregation',selectedAggregation);
     resetChart();
   });
   $.get('../../../agents/json', function(agents) {
