@@ -43,7 +43,11 @@ $(function() {
   }
 
   var search = window.location.search;
-  if(search) setQueryParams(search.substring(1));  
+  if(search) setQueryParams(search.substring(1));
+
+  $('#clone').click(function() {
+     window.open(window.location);
+  }); 
  
   var selectedAgent = getState('agent');
   var selectedMetric = getState('metric');
