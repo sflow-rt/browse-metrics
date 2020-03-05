@@ -74,6 +74,7 @@ $(function() {
     for(i = 0; i < chartData.times.length; i++) series[i] = 0;
     chartData.values.push(series);
   }
+
   function updateChart(data) {
     if(!data || data.length === 0) return;
     if(!chartData) resetChart();
@@ -128,17 +129,17 @@ $(function() {
       $.get('../../../metric/'+selectedAgent+'/json',function(metrics) {
         var metricSelect = $('#metric');
         var dsSelect = $('#datasource');
-        var i, idx, ds, dsList, name, nameList, metricsList = Object.keys(metrics);
+        var i, idx, ds, dsName, dsList, name, nameList, metricsList = Object.keys(metrics);
         for(i = 0; i < metricsList.length; i++) {
           idx = metricsList[i].lastIndexOf('.');
           ds = metricsList[i].substring(0,idx);
           name = metricsList[i].substring(idx+1);
           dsList = names[name];
           if(!dsList) {
-            dsList = [];
+            dsList = {};
             names[name] = dsList;
           };
-          dsList.push(ds); 
+          dsList[ds] = metrics[ds+'.vir_host_name'] || metrics[ds+'.host_name'] || metrics[ds+'.ifname'] || ds;; 
         }
         nameList = Object.keys(names).sort();
         if(!names[selectedMetric]) {
@@ -149,11 +150,13 @@ $(function() {
         for(i = 0; i < nameList.length; i++) {
           metricSelect.append('<option value="'+nameList[i]+'"' + (selectedMetric == nameList[i] ? ' selected' : '') + '>'+nameList[i]+'</option>');
         }
-        dsList = names[selectedMetric].sort((a,b) => a - b);
+        dsList = Object.keys(names[selectedMetric]).sort((a,b) => a - b);
         dsSelect.empty();
         dsSelect.append('<option value="ALL"'+('ALL' === selectedDatasource ? ' selected' : '')+'>ALL</option>');
         for(i = 0; i < dsList.length; i++) {
-          dsSelect.append('<option value="'+dsList[i]+'"'+(dsList[i] === selectedDatasource ? ' selected' : '')+'>'+dsList[i]+'</options>');
+          ds = dsList[i];
+          dsName = names[selectedMetric][ds];
+          dsSelect.append('<option value="'+ds+'"'+(ds === selectedDatasource ? ' selected' : '')+'>'+dsName+'</options>');
         }
         resetChart();
       });
@@ -168,13 +171,15 @@ $(function() {
     selectedMetric = $('#metric').children('option:selected').val();
     setState('metric',selectedMetric,true);
     var dsSelect = $('#datasource');
-    var i, dsList = names[selectedMetric];
+    var i, ds, dsName, dsList = Object.keys(names[selectedMetric]);
     dsSelect.empty();
     if(dsList) {
       dsList.sort((a,b) => a - b);
       dsSelect.append('<option value="ALL">ALL</option>');
       for(i = 0; i < dsList.length; i++) {
-        dsSelect.append('<option value="'+dsList[i]+'">'+dsList[i]+'</options>');
+        ds = dsList[i];
+        dsName = names[selectedMetric][ds];
+        dsSelect.append('<option value="'+ds+'">'+dsName+'</options>');
       }
     } else {
       dsSelect.append('<option value="ALL" selected>ALL</option>');
