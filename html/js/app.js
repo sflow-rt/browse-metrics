@@ -171,7 +171,7 @@ $(function() {
     selectedMetric = $('#metric').children('option:selected').val();
     setState('metric',selectedMetric,true);
     var dsSelect = $('#datasource');
-    var i, ds, dsName, dsList = Object.keys(names[selectedMetric]);
+    var i, ds, dsName, dsList = Object.keys(names[selectedMetric] || {});
     dsSelect.empty();
     if(dsList) {
       dsList.sort((a,b) => a - b);
