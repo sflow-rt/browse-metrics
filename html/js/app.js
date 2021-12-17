@@ -59,8 +59,6 @@ $(function() {
   var step = 1000;
   var chartData;
 
-  var nf = $.inmon.stripchart.prototype.valueStr;
-
   var widget = $('#chart').stripchart();
   
   function resetChart() {
@@ -96,7 +94,7 @@ $(function() {
     widget.stripchart("draw", chartData);
     $('#metric-agent').text(data[0].agent || '');
     $('#metric-datasource').text(data[0].dataSource || '');
-    $('#metric-value').text($.isNumeric(val) ? nf(val) : val);
+    $('#metric-value').text($.isNumeric(val) ? $.inmon.stripchart.prototype.valueStr(val) : val);
     $('#metric-n').text(data[0].metricN || '');
   }
 
