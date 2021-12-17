@@ -1,5 +1,9 @@
 # Browse metrics
 
+Real-time trending of metrics calculated from streaming telemetry.
+
+[Getting Started](https://sflow-rt.com/intro.php)
+
 ## To install
 
 1. [Download sFlow-RT](https://sflow-rt.com/download.php)
