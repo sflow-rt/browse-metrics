@@ -104,7 +104,7 @@ $(function() {
 
   function updateMetrics() {
     names = {};
-    if('ALL' === selectedAgent || 'TOPOLOGY' === selectedAgent || 'EDGE' === selectedAgent) {
+    if('ALL' === selectedAgent || 'TOPOLOGY' === selectedAgent || 'EDGE' === selectedAgent || 'CORE' === selectedAgent) {
       $.get('../../../metrics/json', function(metrics) {
         var metricSelect = $('#metric');
         var dsSelect = $('#datasource');
@@ -201,6 +201,7 @@ $(function() {
     agentSelect.append('<option value="ALL"'+('ALL' === selectedAgent ? ' selected' : '')+'>ALL</option>');
     agentSelect.append('<option value="TOPOLOGY"'+('TOPOLOGY' === selectedAgent ? ' selected' : '')+'>TOPOLOGY</option>');
     agentSelect.append('<option value="EDGE"'+('EDGE' === selectedAgent ? ' selected' : '')+'>EDGE</option>');
+    agentSelect.append('<option value="CORE"'+('CORE' === selectedAgent ? ' selected' : '')+'>CORE</option>');
     for(i = 0; i < agentList.length; i++) {
       agentSelect.append('<option value="'+agentList[i]+'"'+(agentList[i] === selectedAgent ? ' selected' : '')+'>'+agentList[i]+'</option>'); 
     }
